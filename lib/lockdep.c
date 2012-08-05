@@ -175,7 +175,7 @@ dump_lockdep(int dmpbt)
 	Btrace	*bt;
 	pthread_mutex_t	*qlk;
 
-	printf("current QLocks with holding threads (PID)\n");
+	printf("current mutex with holding threads (PID)\n");
 	printf("========================================\n");
 	for(i = 0; i < MAXPID; i++)
 		for(j = 0; j < MAXLOCK; j++)

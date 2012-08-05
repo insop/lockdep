@@ -1,11 +1,9 @@
 /******************************************************************************
-* FILE: hello.c
+* FILE: hello_mutex.c
 * DESCRIPTION:
-*   A "hello world" Pthreads program.  Demonstrates thread creation and
-*   termination.
-* AUTHOR: Blaise Barney
-* LAST REVISED: 08/09/11
+*   testing mutex and deadlock
 ******************************************************************************/
+
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,13 +1,13 @@
 CC=gcc
-CFLAGS=  -O3 -I../include  -g -DDEBUG
+CFLAGS=  -O3 -I../include  -g
 OBJECTS= hello_mutex.o lockdep.o
 LIBS = -lpthread
 
 
 # --- targets
-all:    hello_mutex
-hello_mutex:   $(OBJECTS) 
-	$(CC)  -o hello_mutex  $(OBJECTS) $(LIBS)
+all:    lockdep_test
+lockdep_test:   $(OBJECTS) 
+	$(CC)  -o lockdep_test  $(OBJECTS) $(LIBS)
         
 hello_mutex.o: hello_mutex.o
 	$(CC) $(CFLAGS) -c hello_mutex.c
