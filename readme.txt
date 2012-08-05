@@ -18,5 +18,5 @@ build
 cd example
 make
 
-./hello_mutex
+./lockdep_test
 
