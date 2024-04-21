@@ -58,7 +58,7 @@ static int
 get_lockid(pthread_mutex_t *q)
 {
 	int i, found;
-	
+
 	found = 0;
 	for(i = 0; i < MAXLOCK && lockid[i] != NULL; i++) {
 		if(lockid[i] == q) {
@@ -91,9 +91,9 @@ get_internal_pid()
 	pthread_t tid;
 
 	tid = pthread_self();
-	
+
 	found = 0;
-	for(i = 0; i < MAXPID && pid_tab[i] != -1; i++) {
+	for(i = 0; i < MAXPID && pid_tab[i] != (pthread_t)-1; i++) {
 		if(pid_tab[i] == tid) {
 			found = 1;
 			break;
@@ -152,7 +152,7 @@ lockdep_init(void)
 			lockid[i] = NULL;
 
 		for(i = 0; i < MAXPID; i++)
-			pid_tab[i] = -1;
+			pid_tab[i] = (pthread_t)-1;
 
 		for(i = 0; i < MAXPID; i++)
 			for(j = 0; j < MAXLOCK; j++)
@@ -203,7 +203,7 @@ dump_lockdep(int dmpbt)
 
 }
 
-static int 
+static int
 will_lock(pthread_mutex_t *mutex, int pid)
 {
 	unsigned long	sp;
@@ -211,7 +211,7 @@ will_lock(pthread_mutex_t *mutex, int pid)
 	Btrace	*bt;
 
 	if(pid < 0 || pid >= MAXPID || mutex == NULL)
-		return;
+		return -1;
 
 	lock_lockdep();
 
@@ -264,7 +264,7 @@ will_lock(pthread_mutex_t *mutex, int pid)
 
 
 
-static int 
+static int
 locked(pthread_mutex_t *mutex, int pid)
 {
 	int	lockid;
@@ -274,7 +274,7 @@ locked(pthread_mutex_t *mutex, int pid)
 #endif
 
 	if(pid < 0 || pid >= MAXPID || mutex == NULL)
-		return;
+		return -1;
 
 	lock_lockdep();
 
@@ -290,7 +290,7 @@ locked(pthread_mutex_t *mutex, int pid)
 	return 0;
 }
 
-static int 
+static int
 unlocked(pthread_mutex_t *mutex, int pid)
 {
 
@@ -301,7 +301,7 @@ unlocked(pthread_mutex_t *mutex, int pid)
 #endif
 
 	if(pid < 0 || pid >= MAXPID || mutex == NULL)
-		return;
+		return -1;
 
 	lock_lockdep();
 
@@ -317,7 +317,7 @@ unlocked(pthread_mutex_t *mutex, int pid)
 	return 0;
 }
 
-int 
+int
 mutex_lock(pthread_mutex_t *mutex)
 {
 	int r, pid;
@@ -332,7 +332,7 @@ mutex_lock(pthread_mutex_t *mutex)
 	return r;
 }
 
-int 
+int
 mutex_unlock(pthread_mutex_t *mutex)
 {
 	int r, pid;
@@ -345,4 +345,3 @@ mutex_unlock(pthread_mutex_t *mutex)
 	unlocked(mutex, pid);
 	return r;
 }
-
