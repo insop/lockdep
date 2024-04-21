@@ -1,0 +1,10 @@
+.code
+*.o
+
+build
+
+.vscode
+.cache
+.codechecker
+
+example/lockdep_test
