@@ -15,6 +15,11 @@
 #include <pthread.h>
 #include "lockdep.h"
 
+#ifdef DEBUG
+#include <execinfo.h>
+#define BACKTRACE_LOG_DEPTH 5
+#endif
+
 #define	MAXPID	40
 #define	MAXLOCK	30
 
@@ -196,8 +201,13 @@ dump_lockdep(int dmpbt)
 				printf("pid 0x%x lock 0x%x (id=%d) -> lock 0x%x (id=%d) %s\n",
 					bt->pid, get_lock(i), i, get_lock(j), j,
 					bt->deadlock==1?"deadlock":"ok");
-				//if(dmpbt == 1)
-					//printf("%s\n\n", (char *) bt->payload);
+#ifdef DEBUG
+				if(dmpbt == 1) {
+					char **strings = backtrace_symbols((void *const *)bt->payload, BACKTRACE_LOG_DEPTH);
+					for (char k = 0; k < BACKTRACE_LOG_DEPTH; k++)
+						printf("%s\n", strings[k]);
+					}
+#endif
 			}
 		}
 
@@ -227,10 +237,13 @@ will_lock(pthread_mutex_t *mutex, int pid)
 
 		if(!follows[i][lockid]) {
 			bt = (Btrace*)malloc((sizeof(Btrace) + btsize));
-			//backtrace(bt->payload, btsize, &sp);
-			if(bt == NULL)
+			if(bt == NULL) {
 				printf("will_lock: *** malloc error \n");
-
+				return -1;
+			}
+#ifdef DEBUG
+			backtrace((void **)bt->payload, btsize);
+#endif
 			follows[i][lockid] = bt;
 			(follows[i][lockid])->pid = pid;
 
