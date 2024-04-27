@@ -206,7 +206,7 @@ dump_lockdep(int dmpbt)
 					char **strings = backtrace_symbols((void *const *)bt->payload, BACKTRACE_LOG_DEPTH);
 					for (char k = 0; k < BACKTRACE_LOG_DEPTH; k++)
 						printf("%s\n", strings[k]);
-					}
+				}
 #endif
 			}
 		}
