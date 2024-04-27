@@ -9,7 +9,7 @@ all:    lockdep_test
 lockdep_test:   $(OBJECTS)
 	$(CC)  -o lockdep_test  $(OBJECTS) $(LIBS)
 
-hello_mutex.o: hello_mutex.o
+hello_mutex.o: hello_mutex.c
 	$(CC) $(CFLAGS) -c hello_mutex.c
 
 lockdep.o: ../lib/lockdep.c
@@ -18,4 +18,4 @@ lockdep.o: ../lib/lockdep.c
 
 # --- remove binary and executable files
 clean:
-	rm -f hello_mutex $(OBJECTS)
+	rm -f lockdep_test $(OBJECTS)
