@@ -47,18 +47,21 @@ static	int		detected = 0;
 static	int		init = 0;
 
 
+// Locks the lockdep mutex to protect shared data structures
 static void
 lock_lockdep(void)
 {
 	pthread_mutex_lock(&lockdep_lk);
 }
 
+// Unlocks the lockdep mutex after operations on shared data structures are complete
 static void
 unlock_lockdep(void)
 {
 	pthread_mutex_unlock(&lockdep_lk);
 }
 
+// Returns the index of the lock in the lockid array, adding it if not present
 static int
 get_lockid(pthread_mutex_t *q)
 {
@@ -77,7 +80,7 @@ get_lockid(pthread_mutex_t *q)
 	return i;
 }
 
-
+// Returns the lock at the specified index in the lockid array
 static pthread_mutex_t *
 get_lock(int i)
 {
@@ -87,8 +90,7 @@ get_lock(int i)
 	return lockid[i];
 }
 
-
-
+// Returns the internal PID for the current thread, adding it to the pid_tab if not present
 static int
 get_internal_pid()
 {
@@ -110,6 +112,7 @@ get_internal_pid()
 	return i;
 }
 
+// Returns the pthread_t identifier for the internal PID
 static pthread_t
 get_pid(int i)
 {
@@ -119,6 +122,7 @@ get_pid(int i)
 	return pid_tab[i];
 }
 
+// Checks if lock 'a' follows lock 'b' in the lock dependency graph
 static int
 does_follow(int a, int b)
 {
@@ -140,6 +144,7 @@ does_follow(int a, int b)
 	return 0;
 }
 
+// Initializes lockdep system, setting up data structures
 static void
 lockdep_init(void)
 {
@@ -172,7 +177,7 @@ lockdep_init(void)
 
 }
 
-
+// Dumps the current state of lock dependencies and lock holdings
 static void
 dump_lockdep(int dmpbt)
 {
@@ -213,6 +218,7 @@ dump_lockdep(int dmpbt)
 
 }
 
+// Checks if acquiring the specified mutex will lead to a deadlock
 static int
 will_lock(pthread_mutex_t *mutex, int pid)
 {
@@ -275,8 +281,7 @@ will_lock(pthread_mutex_t *mutex, int pid)
 	return 0;
 }
 
-
-
+// Marks a mutex as locked by the current thread
 static int
 locked(pthread_mutex_t *mutex, int pid)
 {
@@ -303,6 +308,7 @@ locked(pthread_mutex_t *mutex, int pid)
 	return 0;
 }
 
+// Marks a mutex as unlocked by the current thread
 static int
 unlocked(pthread_mutex_t *mutex, int pid)
 {
@@ -330,6 +336,7 @@ unlocked(pthread_mutex_t *mutex, int pid)
 	return 0;
 }
 
+// Locks a mutex, checking for potential deadlocks
 int
 mutex_lock(pthread_mutex_t *mutex)
 {
@@ -345,6 +352,7 @@ mutex_lock(pthread_mutex_t *mutex)
 	return r;
 }
 
+// Unlocks a mutex, updating the lock holding state
 int
 mutex_unlock(pthread_mutex_t *mutex)
 {
