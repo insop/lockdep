@@ -1,6 +1,6 @@
 # pthread lockdep
 
-`lockdep` is a deadlock detection tool designed for use with pthread_mutex. It is based on the original code from [http://ceph.com/dev-notes/lockdep-for-pthreads](http://ceph.com/dev-notes/lockdep-for-pthreads) and has been modified for enhanced functionality. This tool is distributed under the GNU Lesser General Public License version 2.1.
+`lockdep` is a deadlock detection tool designed for use with pthread_mutex. It is based on the original code from https://ceph.io/en/news/blog/2008/lockdep-for-pthreads/](https://ceph.io/en/news/blog/2008/lockdep-for-pthreads/) and has been modified for enhanced functionality. This tool is distributed under the GNU Lesser General Public License version 2.1.
 
 ## What is lockdep?
 
