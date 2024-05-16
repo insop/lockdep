@@ -222,7 +222,6 @@ dump_lockdep(int dmpbt)
 static int
 will_lock(pthread_mutex_t *mutex, int pid)
 {
-	unsigned long	sp;
 	int	lockid, i;
 	Btrace	*bt;
 
