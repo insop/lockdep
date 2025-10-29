@@ -209,7 +209,7 @@ dump_lockdep(int dmpbt)
 #ifdef DEBUG
 				if(dmpbt == 1) {
 					char **strings = backtrace_symbols((void *const *)bt->payload, BACKTRACE_LOG_DEPTH);
-					for (char k = 0; k < BACKTRACE_LOG_DEPTH; k++)
+					for (int k = 0; k < BACKTRACE_LOG_DEPTH; k++)
 						printf("%s\n", strings[k]);
 				}
 #endif
