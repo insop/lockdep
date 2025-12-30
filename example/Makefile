@@ -1,8 +1,7 @@
 CC=gcc
-CFLAGS=  -Wall -Werror -O3 -I../include -g -Wno-format
+CFLAGS=  -Wall -Werror -O3 -I../include -g -Wno-format -DDEBUG
 OBJECTS= hello_mutex.o lockdep.o
 LIBS = -lpthread
-
 
 # --- targets
 all:    lockdep_test
